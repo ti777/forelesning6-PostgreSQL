@@ -12,7 +12,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class PersonDaoTest {
     @Test
     void shouldRetrieveSavedPerson() throws SQLException {
-        HelloDatabase dao = new HelloDatabase(createDataSource()); //connecter til databasen
+        PersonDao dao = new PersonDao(createDataSource()); //connecter til databasen
 
         Person person = randomPerson(); //lager en tilfeldig person
         dao.save(person); //lagrer den personen i databasen
