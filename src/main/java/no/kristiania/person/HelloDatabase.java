@@ -41,10 +41,15 @@ public class HelloDatabase {
 
     public void save(Person person) throws SQLException {
         try (Connection connection = dataSource.getConnection()) {
-            try (PreparedStatement statement = connection.prepareStatement("insert into people(first_name) values (?)")) {
+            try (PreparedStatement statement = connection.prepareStatement("insert into people(first_name) values (?)", PreparedStatement.RETURN_GENERATED_KEYS)) {
                 statement.setString(1, person.getFirstName());
-
                 statement.executeUpdate();
+
+                //etter å ha insertet ting inni databasen --> be db om å få genererte nøkler
+                ResultSet rs = statement.getGeneratedKeys();
+                rs.next();
+                person.setId(rs.getLong("id"));//får ut id som en kolonne
+
             }
         }
         this.person = person;
@@ -52,7 +57,7 @@ public class HelloDatabase {
 
     public Person retrieve(long id) throws SQLException {
         try (Connection connection = dataSource.getConnection()) {
-            try (PreparedStatement statement = connection.prepareStatement("select from people")) {
+            try (PreparedStatement statement = connection.prepareStatement("select first_name from people where id = ?")) {
                 statement.setLong(1, id); //vet ikke ID til personen hvis vi putter en person i databasen
                 ResultSet rs = statement.executeQuery();
 
