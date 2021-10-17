@@ -40,8 +40,9 @@ public class HelloDatabase {
 
     public void save(Person person) throws SQLException {
         try (Connection connection = dataSource.getConnection()) {
-            try (PreparedStatement statement = connection.prepareStatement("insert into people(first_name) values (?)", PreparedStatement.RETURN_GENERATED_KEYS)) {
+            try (PreparedStatement statement = connection.prepareStatement("insert into people(first_name, last_name) values (?, ?)", PreparedStatement.RETURN_GENERATED_KEYS)) {
                 statement.setString(1, person.getFirstName());
+                statement.setString(2, person.getLastName());
                 statement.executeUpdate();
 
                 //etter å ha insertet ting inni databasen --> be db om å få genererte nøkler
@@ -55,13 +56,14 @@ public class HelloDatabase {
 
     public Person retrieve(long id) throws SQLException {
         try (Connection connection = dataSource.getConnection()) {
-            try (PreparedStatement statement = connection.prepareStatement("select first_name from people where id = ?")) {
+            try (PreparedStatement statement = connection.prepareStatement("select * from people where id = ?")) {
                 statement.setLong(1, id); //vet ikke ID til personen hvis vi putter en person i databasen
                 ResultSet rs = statement.executeQuery();
 
                 if (rs.next()) { //hvis jeg fant en rad, så kan jeg returnere en person i den raden
                     Person person = new Person();
                     person.setFirstName(rs.getString("first_name")); //denne personen skal ha satt firstName til first_name
+                    person.setLastName(rs.getString("last_name"));
                     return person;
 
                 }

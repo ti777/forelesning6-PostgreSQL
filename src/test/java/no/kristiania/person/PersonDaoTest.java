@@ -19,6 +19,7 @@ public class PersonDaoTest {
 
         //hente ut personen.
         assertThat(dao.retrieve(person.getId()))
+                .hasNoNullFieldsOrPropertiesExcept("id") //henter ut data fra db, testdatene jeg har, skal ha feltene sine satt
                 .usingRecursiveComparison() //hvis du bruker reksusivt comparison, så skal de være like
                 .ignoringFields("id")
                 .isEqualTo(person); //skal være lik den personen jeg la inn
@@ -35,6 +36,7 @@ public class PersonDaoTest {
     private Person randomPerson() { //opprette en random person
         Person person = new Person();
         person.setFirstName(pickOne("Johannes", "Jane", "Jamal", "joe", "josefine"));
+        person.setLastName(pickOne("Brodal", "Janesen", "Jamalsen", "joesson", "josefinesen"));
         return person;
     }
 
