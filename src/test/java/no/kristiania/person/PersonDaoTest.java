@@ -19,9 +19,8 @@ public class PersonDaoTest {
 
         //hente ut personen.
         assertThat(dao.retrieve(person.getId()))
-                .hasNoNullFieldsOrPropertiesExcept("id") //henter ut data fra db, testdatene jeg har, skal ha feltene sine satt
+                .hasNoNullFieldsOrProperties() //henter ut data fra db, testdatene jeg har, skal ha feltene sine satt
                 .usingRecursiveComparison() //hvis du bruker reksusivt comparison, så skal de være like
-                .ignoringFields("id")
                 .isEqualTo(person); //skal være lik den personen jeg la inn
     }
 

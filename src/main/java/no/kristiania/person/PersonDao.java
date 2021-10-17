@@ -62,6 +62,7 @@ public class PersonDao {
 
                 if (rs.next()) { //hvis jeg fant en rad, så kan jeg returnere en person i den raden
                     Person person = new Person();
+                    person.setId(rs.getLong("id"));
                     person.setFirstName(rs.getString("first_name")); //denne personen skal ha satt firstName til first_name
                     person.setLastName(rs.getString("last_name"));
                     return person;
