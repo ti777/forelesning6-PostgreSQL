@@ -7,6 +7,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class HelloDatabase {
+    private Person person;
+
     public static void main(String[] args) throws SQLException {
 
         PGSimpleDataSource dataSource = new PGSimpleDataSource();
@@ -32,9 +34,10 @@ public class HelloDatabase {
     }
 
     public void save(Person person) {
+        this.person = person;
     }
 
     public Person retrieve(Long id) {
-        return null;
+        return person;
     }
 }
