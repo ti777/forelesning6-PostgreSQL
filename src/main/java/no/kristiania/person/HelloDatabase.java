@@ -60,7 +60,7 @@ public class HelloDatabase {
                 ResultSet rs = statement.executeQuery();
 
                 if (rs.next()) { //hvis jeg fant en rad, så kan jeg returnere en person i den raden
-                    Person.person = new Person();
+                    Person person = new Person();
                     person.setFirstName(rs.getString("first_name")); //denne personen skal ha satt firstName til first_name
                     return person;
 
