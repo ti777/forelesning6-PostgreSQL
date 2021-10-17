@@ -1,6 +1,7 @@
 package no.kristiania.person;
 import org.postgresql.ds.PGSimpleDataSource;
 
+import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -8,10 +9,15 @@ import java.sql.SQLException;
 
 public class HelloDatabase {
     private Person person;
+    private DataSource dataSource;
+
+    public HelloDatabase(DataSource dataSource) {
+        this.dataSource = dataSource;
+    }
 
     public static void main(String[] args) throws SQLException {
 
-        PGSimpleDataSource dataSource = new PGSimpleDataSource();
+        PGSimpleDataSource dataSource = new PGSimpleDataSource(); //bruker en datasource
         dataSource.setUrl("jdbc:postgresql://localhost:5432/person_db");
         dataSource.setUser("person_dbuser");
         dataSource.setPassword(",a2{k^8!+HX/;,9cF6");
@@ -33,7 +39,14 @@ public class HelloDatabase {
 
     }
 
-    public void save(Person person) {
+    public void save(Person person) throws SQLException {
+        try (Connection connection = dataSource.getConnection()) {
+            try (PreparedStatement statement = connection.prepareStatement("insert into people(first_name) values (?)")) {
+                statement.setString(1, person.getFirstName());
+
+                statement.executeUpdate();
+            }
+        }
         this.person = person;
     }
 
