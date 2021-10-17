@@ -19,6 +19,8 @@ public class PersonDaoTest {
 
         //hente ut personen.
         assertThat(dao.retrieve(person.getId()))
+                .usingRecursiveComparison() //hvis du bruker reksusivt comparison, så skal de være like
+                .ignoringFields("id")
                 .isEqualTo(person); //skal være lik den personen jeg la inn
     }
 
