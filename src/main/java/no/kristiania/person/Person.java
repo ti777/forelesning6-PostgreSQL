@@ -1,6 +1,7 @@
 package no.kristiania.person;
 
 public class Person {
+    public static Person person;
     private Long id;
     private String firstName;
 
